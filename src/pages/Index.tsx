@@ -43,14 +43,16 @@ const markdown = await ocr({
   return (
     <div className="min-h-screen bg-secondary p-4 sm:p-8">
       <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-2">
-            <div className="bg-[#1e1e1e] p-2 rounded">
-              <span className="text-white font-mono text-xl">&lt;/&gt;</span>
-            </div>
-            <h1 className="text-2xl font-bold">GPT-OCR</h1>
-            <span className="text-sm text-gray-500">powered by together.ai</span>
+        <div className="text-center space-y-4">
+          <div className="inline-block bg-gray-100 px-4 py-2 rounded-full">
+            <p className="text-sm">
+              Powered by <span className="font-semibold">llama-ocr</span> & <span className="font-semibold">Together AI</span>
+            </p>
           </div>
+          <h1 className="text-5xl font-bold">OCR: Document to Markdown</h1>
+          <p className="text-xl text-gray-600">
+            Upload an image to turn it into structured markdown <span className="italic">(PDF support soon!)</span>
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
