@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FileUpload } from '@/components/FileUpload';
 import { TextOutput } from '@/components/TextOutput';
 import { toast } from 'sonner';
+import { ocr } from 'llama-ocr';
 
 const Index = () => {
   const [extractedText, setExtractedText] = useState('');
@@ -9,12 +10,30 @@ const Index = () => {
 
   const handleFileSelect = async (file: File) => {
     setIsProcessing(true);
-    // Simulate OCR processing
-    setTimeout(() => {
-      setExtractedText('Sample extracted text from the image.\nThis is a placeholder for the actual OCR result.');
+    try {
+      // Convert File to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+        const base64String = reader.result as string;
+        const base64Image = base64String.split(',')[1];
+        
+        // Process with llama-ocr
+        const result = await ocr({
+          filePath: base64Image,
+          apiKey: process.env.TOGETHER_API_KEY || '' // You'll need to set this up
+        });
+
+        setExtractedText(result);
+        toast.success('Text extracted successfully');
+      };
+    } catch (error) {
+      console.error('OCR Error:', error);
+      toast.error('Failed to extract text from image');
+      setExtractedText('');
+    } finally {
       setIsProcessing(false);
-      toast.success('Text extracted successfully');
-    }, 2000);
+    }
   };
 
   return (
